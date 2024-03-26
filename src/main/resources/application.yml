@@ -4,3 +4,4 @@ application:
       - accessKey: ${ACCESS_KEY}
         secretKey: ${SECRET_KEY}
         endpoint: ${NCP_ENDPOINT}
+        region: ${NCP_REGION}

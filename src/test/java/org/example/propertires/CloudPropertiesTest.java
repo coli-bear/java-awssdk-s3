@@ -9,6 +9,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -29,11 +32,19 @@ class CloudPropertiesTest {
 
     @Test
     void cloudAuthenticationDetailsContentTest() {
-        Assertions.assertEquals(1, cloudProperties.getCloud().size());
-        Assertions.assertTrue(cloudProperties.getCloud().containsKey(CloudProvider.NCP));
-        Assertions.assertEquals(1, cloudProperties.getCloud().get(CloudProvider.NCP).size());
-        Assertions.assertEquals("accessKey", cloudProperties.getCloud().get(CloudProvider.NCP).get(0).getAccessKey());
-        Assertions.assertEquals("secretKey", cloudProperties.getCloud().get(CloudProvider.NCP).get(0).getSecretKey());
-        Assertions.assertEquals("endpoint", cloudProperties.getCloud().get(CloudProvider.NCP).get(0).getEndpoint());
+        assertEquals(1, cloudProperties.getCloud().size());
+        assertTrue(cloudProperties.getCloud().containsKey(CloudProvider.NCP));
+        assertEquals(1, cloudProperties.getCloud().get(CloudProvider.NCP).size());
+        CloudProperties.CloudObjectStorage.CloudAuthentication authentication = cloudProperties.getCloud().get(CloudProvider.NCP).get(0).getAuthentication();
+        assertEquals("accessKey", authentication.getAccessKey());
+        assertEquals("secretKey", authentication.getSecretKey());
+        assertEquals("endpoint", authentication.getEndpoint());
+        assertEquals("kr-standard", authentication.getRegion());
+        CloudProperties.CloudObjectStorage.CloudObjectStorageDetails storageDetails = cloudProperties.getCloud().get(CloudProvider.NCP).get(0).getObjectStorage();
+        assertEquals("bucketName", storageDetails.getBucketName());
+        assertEquals("objectPath", storageDetails.getObjectPath());
+        assertEquals("objectName", storageDetails.getObjectName());
+        assertEquals("lockAlgorithmKey", storageDetails.getAlgorithm());
+        assertEquals("filePath", storageDetails.getLocalFile());
     }
 }

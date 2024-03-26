@@ -1,6 +1,14 @@
 application:
   cloud:
     NCP:
-      - accessKey: ${ACCESS_KEY}
-        secretKey: ${SECRET_KEY}
-        endpoint: ${NCP_ENDPOINT}
+      - authentication:
+          accessKey: ${ACCESS_KEY}
+          secretKey: ${SECRET_KEY}
+          endpoint: ${NCP_ENDPOINT}
+          region: ${NCP_REGION}
+        object-storage:
+          bucket-name: ${BUCKET_NAME}
+          object-path: ${OBJECT_PATH}
+          object-name: ${OBJECT_NAME}
+          algorithm: ${LOCK_ALGORITHM_KEY}
+          local-file: ${FILE_PATH}
